@@ -88,9 +88,11 @@ sudo apt install ocrmypdf tesseract-ocr-all poppler-utils imagemagick
 
 Installing all the requirements without a package manager is cumbersome. Therefore install the [Command Line Tools for Xcode](https://itunes.apple.com/us/app/xcode/id497799835) and [Homebrew](https://brew.sh) first. It offers an easy way to install all the tools and software needed for this lesson.
 
+<!-- Homebrew installer is now in bash -->
+
 ``` bash
 xcode-select --install
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install ocrmypdf tesseract-lang poppler imagemagick
 ```
 
@@ -110,7 +112,9 @@ The Topic Modelling in the case study is performed with the [DARIAH Topics Explo
 
 <div class="alert alert-warning">
 
-If you are using a Mac and receive an error message that the file is from an “unidentified developer,” you can overwrite it by holding control while double-clicking it. If that doesn't work, go to Systems Preferences, click on Security & Privacy, and then click Open Anyway.
+With the release of macOS 10.15 Catalina, Apple has introduced new security features which result in issues with starting the TopicsExplorer. As a temporary workaround follow the instructions on the [Dariah Webpage](https://dariah-de.github.io/TopicsExplorer/#getting%20started). <b>You will need Python 3.6 which can be obtained through the pyenv package</b>.
+
+<!-- This workaround is nasty. You can install pyenv to get a version of Python 3.6, which is not mentioned by Dariah. It took me quite a while to get the Topics Explorer running.-->
 
 </div>
 
@@ -180,6 +184,8 @@ ocrmypdf --language eng --deskew --clean 'ILO-SR_N2_engl.pdf' 'ILO-SR_N2_engl.pd
 
 {% include figure.html filename="working-with-batches-of-pdf-files1.png" caption="Figure 1: The status messages of the software indicate recognition errors in the OCR process." %}
 
+<!-- My terminal output looked slightly different, but contained the same information. I think this is contained in the alert below. -->
+
 The status messages of the software indicate recognition errors during the OCR process (see Figure 1). If certain errors occur systematically, it may be worthwhile to write a correction script. See [Cleaning OCR’d text with Regular Expressions](/en/lessons/cleaning-ocrd-text-with-regular-expressions).
 
 <div class="alert alert-info">
@@ -204,9 +210,12 @@ pdftotext 'ILO-SR_N1_engl.pdf' 'ILO-SR_N1_engl.txt'
 
 To process all PDF files in your working directory at once. The status message `Syntax Warning: Invalid Font Weight` means that the file contains formatting that does not meet the standard specifications of PDF. You can safely ignore this message.
 
+<!-- I don't get any Syntax Warning. -->
+
 ``` bash
 find . -name '*.pdf' -exec pdftotext '{}' '{}.txt' \;
 ```
+<!-- If you execute both of the above commands you will get dublicates for 'ILO-SR_N1_engl'-->
 
 Once you have extracted all the embedded text from the PDFs, you can easily browse the text files. You can use the Windows Explorer, MacOS Finder, or a command line program like `grep`. You can display all the mentions of the term “statistics”.
 
@@ -247,8 +256,11 @@ To process all PDF files in your working directory at once.
 ``` bash
 find . -name '*.pdf' -exec pdfimages -png '{}' '{}' \;
 ```
+<!-- Running both commands will again produce dublicates for '23B09_5_engl.pdf' -->
 
 Poppler can only extract illustrations if they are available as individual images in the PDF file. If you want to extract illustrations from a scanned page take a look at this lesson: [Extracting Illustrated Pages from Digital Libraries with Python](/en/lessons/extracting-illustrated-pages).
+
+<!-- I don't know if this is intended, but for me Poppler simply extracts every single page of the PDFs into a png. I think this should be mentioned in the alert above. -->
 
 ## Combine Images and PDFs into a Single PDF
 
